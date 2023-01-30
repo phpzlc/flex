@@ -13,6 +13,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class InstallCommand extends Base
 {
@@ -58,12 +59,20 @@ class InstallCommand extends Base
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $this->packpagName = $input->getArgument('packpagName');
+
         $this->packpagAllName = 'phpzlc/' . $this->packpagName;
         $this->packpagDirPath = $this->getRootPath() . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'phpzlc' . DIRECTORY_SEPARATOR . $this->packpagName;
         $this->packpageContribDirPath = $this->packpagDirPath .  DIRECTORY_SEPARATOR . 'Contrib';
         $this->packpageContribManifestPath = $this->packpageContribDirPath . DIRECTORY_SEPARATOR . 'manifest.json';
 
         $this->io->title('执行 ' . $this->packpagAllName . ' 安装程序');
+
+        $helper = $this->getHelper('question');
+        $question = new ConfirmationQuestion('是否确认执行,执行会覆盖业务代码，建议先备份现有代码在执行?(y/n): ', false);
+        if (!$helper->ask($input, $output, $question)) {
+            $this->io->warning('执行中断');
+            return Command::SUCCESS;
+        }
 
         $filesystem = new Filesystem();
 
@@ -81,15 +90,19 @@ class InstallCommand extends Base
                     $originFile = str_replace('/', DIRECTORY_SEPARATOR, $this->packpagDirPath . DIRECTORY_SEPARATOR. $originFile);
                     $targetFile = str_replace('/', DIRECTORY_SEPARATOR, $this->getRootPath() . DIRECTORY_SEPARATOR . $targetFile);
 
-                    if($filesystem->exists($targetFile)){
-                        if(strpos($targetFile, 'vendor') !== false){
-                            $filesystem->rename($targetFile, $targetFile . '.' . time(). '.back');
-                        }else{
-                            $filesystem->remove($targetFile);
+                    if(is_file($originFile)) {
+                        if ($filesystem->exists($targetFile)) {
+                            if (strpos($targetFile, 'vendor') !== false) {
+                                $filesystem->rename($targetFile, $targetFile . '.' . time() . '.back');
+                            } else {
+                                $filesystem->remove($targetFile);
+                            }
                         }
-                    }
 
-                    $filesystem->copy($originFile, $targetFile);
+                        $filesystem->copy($originFile, $targetFile);
+                    }else{
+                        $filesystem->mirror($originFile, $targetFile);
+                    }
 
                     $this->io->text($originFile . '=>' . $targetFile );
                 }
@@ -100,8 +113,11 @@ class InstallCommand extends Base
                 $this->io->title('run README:');
                 $readmeContent = file_get_contents($this->packpageContribDirPath . DIRECTORY_SEPARATOR . 'README.md');
                 $readmeContent = <<<EOF
+
 ## {$this->packpagAllName}
+
 {$readmeContent}
+
 EOF;
                 $filesystem->appendToFile($this->getRootPath() . DIRECTORY_SEPARATOR . 'README.md', $readmeContent);
 
