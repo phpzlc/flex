@@ -1,6 +1,6 @@
-## flex
+## phpzlc-flex
 
-组件介绍
+phpzlc composer 包安装工具
 
 ## 使用文档
 
