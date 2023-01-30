@@ -1,11 +1,11 @@
 {
-    "name": "phpzlc/{变量}",
-    "description": "{变量}",
+    "name": "phpzlc/flex",
+    "description": "phpzlc composer 包管理工具",
     "homepage": "https://phpzlc.com/",
     "license": "MIT",
     "type": "library",
     "keywords": [
-        "phpzlc", "symfony", "{变量}"
+        "phpzlc", "symfony", "flex", "composer"
     ],
     "support": {
         "email": "1044295598@qq.com"
@@ -18,7 +18,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "PHPZlc\\{变量}\\": [""]
+            "PHPZlc\\flex\\": [""]
         }
     },
     "require": {
