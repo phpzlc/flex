@@ -60,7 +60,7 @@ class InstallCommand extends Base
         $this->packpagName = $input->getArgument('packpagName');
         $this->packpagAllName = 'phpzlc/' . $this->packpagName;
         $this->packpagDirPath = $this->getRootPath() . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'phpzlc' . DIRECTORY_SEPARATOR . $this->packpagName;
-        $this->packpageContribDirPath = $this->packpagDirPath .  DIRECTORY_SEPARATOR . 'contrib';
+        $this->packpageContribDirPath = $this->packpagDirPath .  DIRECTORY_SEPARATOR . 'Contrib';
         $this->packpageContribManifestPath = $this->packpageContribDirPath . DIRECTORY_SEPARATOR . 'manifest.json';
 
         $this->io->title('执行 ' . $this->packpagAllName . ' 安装程序');
