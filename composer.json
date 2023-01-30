@@ -1,0 +1,27 @@
+{
+    "name": "phpzlc/{变量}",
+    "description": "{变量}",
+    "homepage": "https://phpzlc.com/",
+    "license": "MIT",
+    "type": "library",
+    "keywords": [
+        "phpzlc", "symfony", "{变量}"
+    ],
+    "support": {
+        "email": "1044295598@qq.com"
+    },
+    "authors": [
+        {
+            "name": "CJayHe",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "PHPZlc\\{变量}\\": [""]
+        }
+    },
+    "require": {
+        "phpzlc/phpzlc": "2.*"
+    }
+}
