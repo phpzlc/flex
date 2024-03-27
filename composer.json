@@ -22,6 +22,6 @@
         }
     },
     "require": {
-        "phpzlc/phpzlc": "2.*"
+        "symfony/framework-bundle" : ">=5.4"
     }
 }
