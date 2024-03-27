@@ -17,19 +17,19 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class InstallCommand extends Base
 {
-    public function configure()
+    protected function configure()
     {
         $this
             ->setName($this->command_pre . 'install')
             ->setDescription($this->description_pre . '食谱安装')
-            ->addArgument('packpagName', InputArgument::REQUIRED, 'phpzlc 包名')
+            ->addArgument('packageName', InputArgument::REQUIRED, 'phpzlc 包名')
         ;
     }
 
     /**
      * @var 包名
      */
-    private $packpagName;
+    private $packageName;
 
     /**
      * @var 包的全名
@@ -56,12 +56,12 @@ class InstallCommand extends Base
      */
     private $packpageContribManifestContent;
 
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->packpagName = $input->getArgument('packpagName');
+        $this->packageName = $input->getArgument('packageName');
 
-        $this->packpagAllName = 'phpzlc/' . $this->packpagName;
-        $this->packpagDirPath = $this->getRootPath() . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'phpzlc' . DIRECTORY_SEPARATOR . $this->packpagName;
+        $this->packpagAllName = 'phpzlc/' . $this->packageName;
+        $this->packpagDirPath = $this->getRootPath() . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'phpzlc' . DIRECTORY_SEPARATOR . $this->packageName;
         $this->packpageContribDirPath = $this->packpagDirPath .  DIRECTORY_SEPARATOR . 'Contrib';
         $this->packpageContribManifestPath = $this->packpageContribDirPath . DIRECTORY_SEPARATOR . 'manifest.json';
 
