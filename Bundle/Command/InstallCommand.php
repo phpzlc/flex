@@ -77,7 +77,9 @@ class InstallCommand extends Base
         $filesystem = new Filesystem();
 
         if ($filesystem->exists($this->packpageContribManifestPath)) {
-            $this->packpageContribManifestContent = json_decode(file_get_contents($this->packpageContribManifestPath), true);
+            $packpageContribManifestcontent = file_get_contents($this->packpageContribManifestPath);
+            $packpageContribManifestcontent = str_replace(array("\n", "\r"), '', $packpageContribManifestcontent);
+            $this->packpageContribManifestContent = json_decode(trim($packpageContribManifestcontent), true);
             if(empty($this->packpageContribManifestContent) || !is_array($this->packpageContribManifestContent)){
                 $this->io->error('安装失败：食谱格式错误');
 
